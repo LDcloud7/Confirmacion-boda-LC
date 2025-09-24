@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Asistencia - Boda Lucas y Caro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa-viejo: #b76e79;
+            --rosa-suave: #f8d7da;
+            --beige: #f5e8da;
+            --oro: #d4af37;
+            --oro-claro: #f5e8aa;
+            --blanco: #ffffff;
+            --texto-oscuro: #4a3c3a;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, var(--rosa-viejo) 0%, var(--beige) 100%);
+            color: var(--texto-oscuro);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background-color: var(--blanco);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(166, 123, 136, 0.3);
+            width: 100%;
+            max-width: 700px;
+            border: 3px solid var(--oro);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--oro);
+            opacity: 0.15;
+            border-radius: 0 0 0 100px;
+        }
+        
+        h1 {
+            color: var(--texto-oscuro);
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, var(--rosa-viejo), var(--oro));
+        }
+        
+        .countdown {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            color: var(--rosa-viejo);
+            background-color: rgba(212, 175, 55, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--oro);
+        }
+        
+        .countdown-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px;
+        }
+        
+        .time-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--oro);
+            line-height: 1;
+        }
+        
+        .time-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: var(--texto-oscuro);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--texto-oscuro);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--oro);
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: var(--blanco);
+            color: var(--texto-oscuro);
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--rosa-viejo);
+            box-shadow: 0 0 0 3px rgba(183, 110, 121, 0.2);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .checkbox-option input {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--oro), var(--oro-claro));
+            color: var(--texto-oscuro);
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            border: 2px solid var(--oro);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--blanco);
+            border-left: 5px solid var(--oro);
+            display: none;
+            border-radius: 8px;
+            border: 2px solid var(--oro);
+        }
+        
+        .success {
+            display: none;
+            padding: 20px;
+            background-color: rgba(212, 175, 55, 0.15);
+            border-left: 5px solid var(--oro);
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--oro);
+        }
+        
+        .error {
+            display: none;
+            padding: 20px;
+            background-color: rgba(183, 110, 121, 0.1);
+            border-left: 5px solid var(--rosa-viejo);
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--rosa-viejo);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading::after {
+            content: "⏳";
+            font-size: 24px;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .companions-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--blanco);
+            border-radius: 8px;
+            border: 2px dashed var(--oro);
+        }
+        
+        .companion-input {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: rgba(245, 232, 218, 0.3);
+            border-radius: 8px;
+            border: 1px solid var(--oro);
+        }
+        
+        .companion-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .companion-title {
+            font-weight: 600;
+            color: var(--rosa-viejo);
+        }
+        
+        .remove-companion {
+            background: var(--blanco);
+            color: var(--rosa-viejo);
+            border: 2px solid var(--rosa-viejo);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .remove-companion:hover {
+            background: var(--rosa-viejo);
+            color: var(--blanco);
+        }
+        
+        .add-companion {
+            background: var(--blanco);
+            color: var(--texto-oscuro);
+            border: 2px solid var(--oro);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .add-companion:hover {
+            background: var(--oro-claro);
+        }
+        
+        .add-companion::before {
+            content: "+";
+            margin-right: 5px;
+            font-weight: bold;
+        }
+        
+        .allergies-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--blanco);
+            border-radius: 8px;
+            border: 2px solid var(--oro);
+        }
+        
+        .allergy-details {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(245, 232, 218, 0.3);
+            border-radius: 5px;
+        }
+        
+        .event-info {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--oro);
+        }
+        
+        .event-info h3 {
+            color: var(--texto-oscuro);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-info h3::before {
+            content: "💒";
+            margin-right: 10px;
+        }
+        
+        .event-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-info strong {
+            min-width: 80px;
+            margin-right: 10px;
+        }
+        
+        .closing-message {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--rosa-viejo);
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+        
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 5px;
+            padding: 8px 15px;
+            background-color: var(--oro-claro);
+            color: var(--texto-oscuro);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid var(--oro);
+        }
+        
+        .map-link:hover {
+            background-color: var(--oro);
+            color: var(--blanco);
+        }
+        
+        .map-link::before {
+            content: "📍";
+            margin-right: 8px;
+        }
+        
+        .optional-section {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .countdown-timer {
+                gap: 10px;
+            }
+            
+            .time-unit {
+                min-width: 60px;
+            }
+            
+            .time-value {
+                font-size: 1.7rem;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmación de Asistencia<br>Boda Lucas y Caro</h1>
+        
+        <div class="countdown" id="countdown">
+            <div class="countdown-title">Límite de confirmación:</div>
+            <div class="countdown-timer">
+                <div class="time-unit">
+                    <span class="time-value" id="days">14</span>
+                    <span class="time-label">días</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">23</span>
+                    <span class="time-label">horas</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">59</span>
+                    <span class="time-label">minutos</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="seconds">59</span>
+                    <span class="time-label">segundos</span>
+                </div>
+            </div>
+        </div>
+        
+        <form id="confirmationForm">
+            <div class="form-group">
+                <label for="name">Nombre completo:</label>
+                <input type="text" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>¿Asistirás a la ceremonia?</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="attendance" value="yes" checked> Sí, asistiré
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="attendance" value="no"> No, no podré asistir
+                    </label>
+                </div>
+            </div>
+            
+            <div id="attendanceSection" class="optional-section">
+                <div class="form-group">
+                    <label>¿Vendrás con acompañante?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="hasCompanion" value="no" checked> No
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="hasCompanion" value="yes"> Sí
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="companions-container" id="companionsContainer">
+                    <h3>Información de acompañantes:</h3>
+                    <div id="companionsList"></div>
+                    <button type="button" class="add-companion" id="addCompanion">Añadir acompañante</button>
+                </div>
+                
+                <!-- Restricciones alimentarias para el invitado principal -->
+                <div class="allergies-section">
+                    <h3>Preferencias alimentarias para <span id="mainGuestName">ti</span>:</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="mainGuestDiet" value="ninguna" checked> Ninguna
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="mainGuestDiet" value="vegetariana"> Vegetariana
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="mainGuestDiet" value="vegana"> Vegana
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="mainGuestDiet" value="sin-gluten"> Sin gluten
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="mainGuestDiet" value="alergia" id="mainGuestAllergyCheckbox"> Alergia alimenticia
+                        </label>
+                    </div>
+                    <div class="allergy-details" id="mainGuestAllergyDetails">
+                        <label for="mainGuestAllergyDescription">Especifica tu alergia:</label>
+                        <input type="text" id="mainGuestAllergyDescription" placeholder="Ej: Alergia a mariscos, frutos secos, etc.">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje para los novios (opcional):</label>
+                    <textarea id="message" rows="3" placeholder="¡Déjanos un mensaje especial!"></textarea>
+                </div>
+            </div>
+            
+            <button type="submit" id="submitBtn">Confirmar</button>
+            
+            <div class="loading" id="loading">
+                <p>Enviando confirmación...</p>
+            </div>
+        </form>
+        
+        <div class="success" id="successMessage">
+            <strong>¡Gracias por confirmar!</strong> 
+            <div id="confirmationDetails"></div>
+        </div>
+        
+        <div class="error" id="errorMessage">
+            <strong>Ha ocurrido un error</strong> al procesar tu confirmación. Por favor, intenta nuevamente.
+        </div>
+        
+        <div class="info event-info" id="eventInfo">
+            <h3>Información del evento</h3>
+            <p><strong>Lugar:</strong> <span id="eventLocation">Hacienda Santa María</span></p>
+            <p><strong>Fecha:</strong> <span id="eventDate">15 de Junio, 2024</span></p>
+            <p><strong>Hora:</strong> <span id="eventTime">17:00 horas</span></p>
+            <p><strong>Dirección:</strong> <span id="eventAddress">Camino a la Esperanza #123, Valle de Paz</span></p>
+            
+            <p>
+                <strong>Ubicación:</strong><br>
+                <a href="https://www.google.com/maps/place/Hacienda+Santa+María/@19.4326077,-99.133205,17z/data=!3m1!4b1!4m6!3m5!1s0x85d1ff3a2c5b4f3f:0x6d8f3e8a3e3e3e3e!8m2!3d19.4326077!4d-99.133205!16s%2Fg%2F11b8z8z8z8?entry=ttu" 
+                   target="_blank" class="map-link">Abrir en Google Maps</a>
+            </p>
+            
+            <p><strong>Código de vestimenta:</strong> <span>Formal - Etiqueta</span></p>
+            
+            <div class="closing-message">
+                <p>¡Los esperamos con mucha ilusión!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
+            const attendanceSection = document.getElementById('attendanceSection');
+            const hasCompanionRadios = document.querySelectorAll('input[name="hasCompanion"]');
+            const companionsContainer = document.getElementById('companionsContainer');
+            const companionsList = document.getElementById('companionsList');
+            const addCompanionBtn = document.getElementById('addCompanion');
+            const mainGuestAllergyCheckbox = document.getElementById('mainGuestAllergyCheckbox');
+            const mainGuestAllergyDetails = document.getElementById('mainGuestAllergyDetails');
+            const mainGuestNameInput = document.getElementById('name');
+            const mainGuestNameSpan = document.getElementById('mainGuestName');
+            const confirmationForm = document.getElementById('confirmationForm');
+            
+            let companionCount = 0;
+            let hasCompanion = false;
+            let willAttend = true;
+            
+            // Actualizar nombre del invitado principal en tiempo real
+            mainGuestNameInput.addEventListener('input', function() {
+                mainGuestNameSpan.textContent = this.value || 'ti';
+            });
+            
+            // Manejar selección de "Ninguna" para el invitado principal
+            function handleMainGuestNoneSelection() {
+                const noneCheckbox = document.querySelector('input[name="mainGuestDiet"][value="ninguna"]');
+                const otherCheckboxes = document.querySelectorAll('input[name="mainGuestDiet"]:not([value="ninguna"])');
+                
+                noneCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        otherCheckboxes.forEach(cb => {
+                            cb.checked = false;
+                            cb.disabled = true;
+                        });
+                        mainGuestAllergyDetails.style.display = 'none';
+                    } else {
+                        otherCheckboxes.forEach(cb => {
+                            cb.disabled = false;
+                        });
+                    }
+                });
+                
+                otherCheckboxes.forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        if (this.checked) {
+                            noneCheckbox.checked = false;
+                        }
+                    });
+                });
+            }
+            
+            // Mostrar/ocultar secciones según la asistencia
+            attendanceRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    willAttend = this.value === 'yes';
+                    
+                    if (willAttend) {
+                        attendanceSection.style.display = 'block';
+                    } else {
+                        attendanceSection.style.display = 'none';
+                        companionsContainer.style.display = 'none';
+                        companionsList.innerHTML = '';
+                        companionCount = 0;
+                    }
+                });
+            });
+            
+            // Mostrar detalles de alergia para invitado principal
+            mainGuestAllergyCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    const noneCheckbox = document.querySelector('input[name="mainGuestDiet"][value="ninguna"]');
+                    noneCheckbox.checked = false;
+                    noneCheckbox.disabled = false;
+                }
+                mainGuestAllergyDetails.style.display = this.checked ? 'block' : 'none';
+            });
+            
+            // Mostrar/ocultar sección de acompañantes
+            hasCompanionRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    hasCompanion = this.value === 'yes';
+                    
+                    if (hasCompanion) {
+                        companionsContainer.style.display = 'block';
+                        companionCount = 0;
+                        companionsList.innerHTML = '';
+                        addCompanion(); // Añadir un campo automáticamente
+                    } else {
+                        companionsContainer.style.display = 'none';
+                        companionsList.innerHTML = '';
+                        companionCount = 0;
+                    }
+                });
+            });
+            
+            // Configurar la fecha límite de confirmación (15 días a partir de hoy)
+            const confirmationDeadline = new Date();
+            confirmationDeadline.setDate(confirmationDeadline.getDate() + 15);
+            
+            // Elementos del countdown
+            const daysElement = document.getElementById('days');
+            const hoursElement = document.getElementById('hours');
+            const minutesElement = document.getElementById('minutes');
+            const secondsElement = document.getElementById('seconds');
+            
+            // Formatear números a dos dígitos
+            function formatTime(value) {
+                return value < 10 ? `0${value}` : value;
+            }
+            
+            // Actualizar el countdown en tiempo real
+            function updateCountdown() {
+                const now = new Date();
+                const timeRemaining = confirmationDeadline - now;
+                
+                if (timeRemaining <= 0) {
+                    daysElement.textContent = '00';
+                    hoursElement.textContent = '00';
+                    minutesElement.textContent = '00';
+                    secondsElement.textContent = '00';
+                    
+                    document.getElementById('countdown').innerHTML = 
+                        '<div class="countdown-title">¡El período de confirmación ha finalizado!</div>';
+                    document.getElementById('submitBtn').disabled = true;
+                    document.getElementById('submitBtn').textContent = 'Confirmación cerrada';
+                    return;
+                }
+                
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                
+                daysElement.textContent = formatTime(days);
+                hoursElement.textContent = formatTime(hours);
+                minutesElement.textContent = formatTime(minutes);
+                secondsElement.textContent = formatTime(seconds);
+            }
+            
+            // Iniciar el countdown en tiempo real
+            updateCountdown();
+            setInterval(updateCountdown, 1000); // Actualizar cada segundo
+            
+            // Mostrar sección de asistencia por defecto
+            attendanceSection.style.display = 'block';
+            
+            // Inicializar manejo de selección "Ninguna"
+            handleMainGuestNoneSelection();
+            
+            // Función para crear campos de alergias para acompañantes
+            function createCompanionAllergySection(companionIndex) {
+                return `
+                    <div class="allergies-section" style="margin-top: 10px;">
+                        <h4>Preferencias alimentarias para este acompañante:</h4>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="companion${companionIndex}Diet" value="ninguna" checked> Ninguna
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="companion${companionIndex}Diet" value="vegetariana"> Vegetariana
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="companion${companionIndex}Diet" value="vegana"> Vegana
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="companion${companionIndex}Diet" value="sin-gluten"> Sin gluten
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="companion${companionIndex}Diet" value="alergia" id="companion${companionIndex}AllergyCheckbox"> Alergia alimenticia
+                            </label>
+                        </div>
+                        <div class="allergy-details" id="companion${companionIndex}AllergyDetails">
+                            <label for="companion${companionIndex}AllergyDescription">Especifica la alergia:</label>
+                            <input type="text" id="companion${companionIndex}AllergyDescription" placeholder="Ej: Alergia a mariscos, frutos secos, etc.">
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Función para manejar selección "Ninguna" en acompañantes
+            function handleCompanionNoneSelection(companionIndex) {
+                const noneCheckbox = document.querySelector(`input[name="companion${companionIndex}Diet"][value="ninguna"]`);
+                const otherCheckboxes = document.querySelectorAll(`input[name="companion${companionIndex}Diet"]:not([value="ninguna"])`);
+                const allergyDetails = document.getElementById(`companion${companionIndex}AllergyDetails`);
+                
+                noneCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        otherCheckboxes.forEach(cb => {
+                            cb.checked = false;
+                            cb.disabled = true;
+                        });
+                        allergyDetails.style.display = 'none';
+                    } else {
+                        otherCheckboxes.forEach(cb => {
+                            cb.disabled = false;
+                        });
+                    }
+                });
+                
+                otherCheckboxes.forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        if (this.checked) {
+                            noneCheckbox.checked = false;
+                        }
+                    });
+                });
+            }
+            
+            // Función para añadir un campo de acompañante
+            function addCompanion() {
+                companionCount++;
+                const div = document.createElement('div');
+                div.className = 'companion-input';
+                div.innerHTML = `
+                    <div class="companion-header">
+                        <div class="companion-title">Acompañante ${companionCount}</div>
+                        <button type="button" class="remove-companion">×</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="companion${companionCount}Name">Nombre completo:</label>
+                        <input type="text" id="companion${companionCount}Name" required>
+                    </div>
+                    ${createCompanionAllergySection(companionCount)}
+                `;
+                companionsList.appendChild(div);
+                
+                // Añadir evento al botón de eliminar
+                const removeBtn = div.querySelector('.remove-companion');
+                removeBtn.addEventListener('click', function() {
+                    div.remove();
+                    companionCount--;
+                    updateAddButtonVisibility();
+                });
+                
+                // Añadir evento para mostrar/ocultar detalles de alergia del acompañante
+                const allergyCheckbox = div.querySelector(`#companion${companionCount}AllergyCheckbox`);
+                const allergyDetails = div.querySelector(`#companion${companionCount}AllergyDetails`);
+                
+                allergyCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        const noneCheckbox = div.querySelector(`input[name="companion${companionCount}Diet"][value="ninguna"]`);
+                        noneCheckbox.checked = false;
+                        noneCheckbox.disabled = false;
+                    }
+                    allergyDetails.style.display = this.checked ? 'block' : 'none';
+                });
+                
+                // Manejar selección "Ninguna" para este acompañante
+                handleCompanionNoneSelection(companionCount);
+                
+                updateAddButtonVisibility();
+            }
+            
+            // Actualizar visibilidad del botón de añadir (sin límite)
+            function updateAddButtonVisibility() {
+                // Sin límite de acompañantes - siempre mostrar el botón
+                addCompanionBtn.style.display = 'block';
+            }
+            
+            // Añadir acompañante al hacer clic en el botón
+            addCompanionBtn.addEventListener('click', addCompanion);
+            
+            // Manejar el envío del formulario
+            confirmationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Verificar si el período de confirmación ha terminado
+                const now = new Date();
+                if (now > confirmationDeadline) {
+                    alert('El período de confirmación ha finalizado. Por favor, contacta directamente con los novios.');
+                    return;
+                }
+                
+                // Validar que si hay acompañantes, se hayan añadido
+                if (willAttend && hasCompanion && companionCount === 0) {
+                    alert('Por favor, añade la información de tu acompañante.');
+                    return;
+                }
+                
+                // Mostrar loading, ocultar otros estados
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('submitBtn').disabled = true;
+                
+                // Recoger datos del formulario
+                const companions = [];
+                const mainGuestDiets = [];
+                const companionDiets = {};
+                
+                // Recopilar preferencias alimentarias del invitado principal
+                document.querySelectorAll('input[name="mainGuestDiet"]:checked').forEach(checkbox => {
+                    if (checkbox.value === 'alergia') {
+                        const allergyDesc = document.getElementById('mainGuestAllergyDescription').value;
+                        if (allergyDesc) {
+                            mainGuestDiets.push(`Alergia: ${allergyDesc}`);
+                        }
+                    } else if (checkbox.value !== 'ninguna') {
+                        mainGuestDiets.push(checkbox.value);
+                    }
+                });
+                
+                // Si no se seleccionó nada, agregar "Ninguna"
+                if (mainGuestDiets.length === 0) {
+                    mainGuestDiets.push('Ninguna');
+                }
+                
+                // Recopilar información de acompañantes
+                for (let i = 1; i <= companionCount; i++) {
+                    const companionName = document.getElementById(`companion${i}Name`);
+                    if (companionName && companionName.value) {
+                        const companionData = {
+                            name: companionName.value,
+                            diets: []
+                        };
+                        
+                        // Recopilar preferencias alimentarias del acompañante
+                        document.querySelectorAll(`input[name="companion${i}Diet"]:checked`).forEach(checkbox => {
+                            if (checkbox.value === 'alergia') {
+                                const allergyDesc = document.getElementById(`companion${i}AllergyDescription`).value;
+                                if (allergyDesc) {
+                                    companionData.diets.push(`Alergia: ${allergyDesc}`);
+                                }
+                            } else if (checkbox.value !== 'ninguna') {
+                                companionData.diets.push(checkbox.value);
+                            }
+                        });
+                        
+                        // Si no se seleccionó nada, agregar "Ninguna"
+                        if (companionData.diets.length === 0) {
+                            companionData.diets.push('Ninguna');
+                        }
+                        
+                        companions.push(companionData);
+                    }
+                }
+                
+                const formData = {
+                    name: document.getElementById('name').value,
+                    willAttend: willAttend,
+                    hasCompanion: willAttend ? hasCompanion : false,
+                    mainGuestDiets: mainGuestDiets,
+                    companions: companions,
+                    message: document.getElementById('message').value
+                };
+                
+                try {
+                    // Enviar datos al backend (simulado)
+                    console.log('Datos a enviar:', formData);
+                    
+                    // Simular envío a servidor
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Mostrar mensaje de éxito personalizado
+                    const confirmationDetails = document.getElementById('confirmationDetails');
+                    if (willAttend) {
+                        let detailsHTML = `
+                            <p>Hemos registrado que <strong>sí asistirás</strong> a nuestra boda.</p>
+                            <p><strong>Preferencias alimentarias para ti:</strong> ${mainGuestDiets.join(', ')}</p>
+                        `;
+                        
+                        if (hasCompanion && companions.length > 0) {
+                            detailsHTML += `<p><strong>Acompañantes:</strong></p>`;
+                            companions.forEach(companion => {
+                                detailsHTML += `<p>- ${companion.name}: ${companion.diets.join(', ')}</p>`;
+                            });
+                        }
+                        
+                        detailsHTML += `<p>La información del evento se mostrará a continuación.</p>`;
+                        confirmationDetails.innerHTML = detailsHTML;
+                        document.getElementById('eventInfo').style.display = 'block';
+                    } else {
+                        confirmationDetails.innerHTML = `
+                            <p>Hemos registrado que <strong>no podrás asistir</strong> a nuestra boda.</p>
+                            <p>Lamentamos mucho tu ausencia y te agradecemos por avisarnos.</p>
+                        `;
+                    }
+                    
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Limpiar formulario
+                    document.getElementById('confirmationForm').reset();
+                    companionsList.innerHTML = '';
+                    companionsContainer.style.display = 'none';
+                    mainGuestAllergyDetails.style.display = 'none';
+                    companionCount = 0;
+                    hasCompanion = false;
+                    // Restablecer los radio buttons
+                    document.querySelector('input[name="hasCompanion"][value="no"]').checked = true;
+                    
+                    // Restablecer checkboxes "Ninguna"
+                    document.querySelectorAll('input[value="ninguna"]').forEach(cb => {
+                        cb.checked = true;
+                        cb.disabled = false;
+                    });
+                    document.querySelectorAll('input:not([value="ninguna"])').forEach(cb => {
+                        cb.checked = false;
+                        cb.disabled = false;
+                    });
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById('errorMessage').style.display = 'block';
+                } finally {
+                    // Ocultar loading y habilitar botón
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('submitBtn').disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
